@@ -4,8 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import SmallPiece from "./SmallPiece";
 import { MdClose, MdMenu } from "react-icons/md";
+import { logoutState } from "../../global/reduxState";
+import { logout } from "../../api/schoolAPIs";
+import { useSchoolData } from "../../hook/useSchoolAuth";
 
 const Header = () => {
+  const { data } = useSchoolData();
   const dispatch = useDispatch();
   const toggle = useSelector((state: any) => state.toggle);
   const toggleMenu = useSelector((state: any) => state.toggleMenu);
@@ -16,12 +20,15 @@ const Header = () => {
       onClick={() => {}}
     >
       <div className="flex items-center  justify-end w-[90%]">
+        <div className="mr-5 font-medium">{data?.schoolName}</div>
         <div
           className="flex items-center px-2 py-1 border rounded-full gap-3 duration-300 transition-all cursor-pointer z-10 bg-white shadow-sm"
-          onClick={() => {}}
+          onClick={() => {
+            dispatch(logoutState());
+            logout();
+          }}
         >
           <img className="w-8 h-8 rounded-full border object-cover" src={pic} />
-
           {toggle ? (
             <FaArrowDown className="rotate-180 duration-300 transition-all" />
           ) : (

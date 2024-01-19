@@ -3,6 +3,10 @@ import AuthLayout from "../components/layout/AuthLayout";
 import Register from "../pages/auth/Register";
 import SignIn from "../pages/auth/SignIn";
 import RegisterCard from "../pages/auth/RegisterCard";
+import Layout from "../components/layout/Layout";
+import HomeScreen from "../pages/home/HomeScreen";
+import PrivateRoute from "./PrivateRoute";
+import MixRoute from "./mixRoute";
 
 export const mainRouter = createBrowserRouter([
   {
@@ -27,6 +31,25 @@ export const mainRouter = createBrowserRouter([
         index: true,
         path: "register-message",
         element: <RegisterCard />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <MixRoute />,
+    children: [
+      {
+        element: (
+          <PrivateRoute>
+            <Layout />
+          </PrivateRoute>
+        ),
+        children: [
+          {
+            index: true,
+            element: <HomeScreen />,
+          },
+        ],
       },
     ],
   },

@@ -4,7 +4,8 @@ import Input from "../../components/reUse/Input";
 import { FaGoogle } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useSchoolRegister } from "../../hook/useSchoolAuth";
+import { registerSchool } from "../../api/schoolAPIs";
+import toast, { Toaster } from "react-hot-toast";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -12,20 +13,25 @@ const Register = () => {
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { mutate } = useSchoolRegister(email);
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log("I was just clikcked...!");
     setLoading(true);
+
     if (email !== "") {
-      mutate().then(() => {
-        navigate("/auth/register-message");
-      });
+      registerSchool(email)
+        .then(() => {
+          setLoading(false);
+          toast.success("Successfully toasted!");
+        })
+        .then(() => {
+          navigate("/auth/register-message");
+        });
     }
   };
 
   return (
     <div className=" w-full h-[94vh] flex flex-col justify-center items-center ">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="mb-10 text-center flex items-center w-full flex-col">
         <div className="mb-5 w-20 h-20 rounded-full border flex justify-center items-center font-bold text-blue-600 text-[30px]">
           SCH

@@ -8,6 +8,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { jwtDecode } from "jwt-decode";
 import { loginSchool, verifySchool } from "../../api/schoolAPIs";
 import Swal from "sweetalert2";
+import toast, { Toaster } from "react-hot-toast";
+import { loginState } from "../../global/reduxState";
 
 const SignIn = () => {
   const { token } = useParams();
@@ -26,39 +28,15 @@ const SignIn = () => {
     loginSchool(val).then((res) => {
       setLoading(false);
 
-      if (res.response.status === 404) {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: `tytyt`,
-          text: "You won't be able to revert this!",
-          showConfirmButton: false,
-          timer: 2500,
-        });
+      if (res.status === 201) {
+        toast.success("Awesome.");
+        dispatch(loginState(res.data));
+
+        navigate("/");
       } else {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: `tytyt`,
-          text: "You won't be able to revert this!",
-          showConfirmButton: false,
-          timer: 2500,
-        }).then(() => {
-          // navigate("/")
-          console.log("you can now Navigate!");
-        });
+        toast.error(`${res.response.data.message}`);
       }
     });
-    // .then(() => {
-    //   Swal.fire({
-    //     position: "top-end",
-    //     icon: "success",
-    //     title: "Your work has been saved",
-
-    //     showConfirmButton: false,
-    //     timer: 1500,
-    //   });
-    // })
   };
 
   useEffect(() => {
@@ -70,6 +48,7 @@ const SignIn = () => {
 
   return (
     <div className=" w-full h-[94vh] flex flex-col justify-center items-center ">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="mb-10 text-center flex items-center w-full flex-col">
         <div className="mb-5 w-20 h-20 rounded-full border flex justify-center items-center font-bold text-blue-600 text-[30px]">
           SCH

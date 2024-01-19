@@ -16,9 +16,11 @@ export const registerSchool = async (data: any) => {
 
 export const loginSchool = async (data: {}) => {
   try {
-    return await axios.post(`${URL}/login-school`, data).then((res: any) => {
-      return res?.data;
-    });
+    return await axios
+      .post(`${URL}/login-school`, data, { withCredentials: true })
+      .then((res: any) => {
+        return res?.data;
+      });
   } catch (error) {
     return error;
   }
@@ -26,9 +28,11 @@ export const loginSchool = async (data: {}) => {
 
 export const getSchoolCookie = async () => {
   try {
-    return await axios.get(`${URL}/read-school-cookie`).then((res: any) => {
-      return res?.data;
-    });
+    return await axios
+      .get(`${URL}/read-school-cookie`, { withCredentials: true })
+      .then((res: any) => {
+        return res?.data;
+      });
   } catch (error) {
     return error;
   }
@@ -38,6 +42,42 @@ export const verifySchool = async (schoolID: string) => {
   try {
     return await axios
       .get(`${URL}/verify-school/${schoolID}`)
+      .then((res: any) => {
+        return res?.data;
+      });
+  } catch (error) {
+    return error;
+  }
+};
+
+export const changeSchoolRef = async (schoolID: string, data: any) => {
+  try {
+    return await axios
+      .patch(`${URL}/change-school-ref/${schoolID}`, data)
+      .then((res: any) => {
+        return res?.data;
+      });
+  } catch (error) {
+    return error;
+  }
+};
+
+export const changeSchoolName = async (schoolID: string, data: any) => {
+  try {
+    return await axios
+      .patch(`${URL}/change-school-name/${schoolID}`, data)
+      .then((res: any) => {
+        return res?.data;
+      });
+  } catch (error) {
+    return error;
+  }
+};
+
+export const changeSchoolStarted = async (schoolID: string) => {
+  try {
+    return await axios
+      .patch(`${URL}/change-school-started/${schoolID}`)
       .then((res: any) => {
         return res?.data;
       });
